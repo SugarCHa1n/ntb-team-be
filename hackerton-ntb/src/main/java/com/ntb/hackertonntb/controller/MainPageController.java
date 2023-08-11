@@ -40,7 +40,7 @@ public class MainPageController {
 
     @GetMapping("/gesipan")
     public String getCommunityPage(Model model){
-        List<Gesipan> randomGesipanPosts = gesipanRepository.findRandomCommunityPosts(2);
+        List<Gesipan> randomGesipanPosts = gesipanRepository.findRandomGesipanPosts(2);
         model.addAttribute("gesipanPosts", randomGesipanPosts);
         return "gesipan/gesipan_list";
     }

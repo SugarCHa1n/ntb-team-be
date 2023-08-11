@@ -10,6 +10,6 @@ import java.util.List;
 public interface GesipanRepository extends JpaRepository<Gesipan, Long> {
 
     @Query(value = "SELECT * FROM community ORDER BY RAND() LIMIT :limit", nativeQuery = true)
-    List<Gesipan> findRandomCommunityPosts(@Param("limit") int limit);
+    List<Gesipan> findRandomGesipanPosts(@Param("limit") int limit);
     List<Gesipan> findByIdContaining(String keyword);
 }
