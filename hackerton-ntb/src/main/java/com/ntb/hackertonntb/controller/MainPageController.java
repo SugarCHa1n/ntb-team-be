@@ -5,48 +5,45 @@ import com.ntb.hackertonntb.domain.entity.Skills;
 import com.ntb.hackertonntb.domain.repository.GesipanRepository;
 import com.ntb.hackertonntb.domain.repository.SkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class MainPageController {
 
     @Autowired
     private SkillsRepository skillsRepository;
 
     @GetMapping("/skills")
-    public String getSkillsPage(Model model){
+    public List<Skills> getRandomSkills() {
         List<Skills> randomSkills = skillsRepository.findRandomSkills(2);
-        model.addAttribute("skills",randomSkills);
-        return "skills/skills_list";
+        return randomSkills;
     }
 
     @GetMapping("/skills/{id}")
-    public String getSkillDetail(@PathVariable Long id, Model model) {
+    public String getSkillsPage(@PathVariable Long id, Model model) {
         Skills skills = skillsRepository.findById(id).orElse(null);
         if (skills == null) {
             return "redirect:/skills";
         }
         model.addAttribute("skills", skills);
-        return "skills/skills_detail";
+        return "skills/skills";
     }
-
     @Autowired
     private GesipanRepository gesipanRepository;
 
     @GetMapping("/gesipan")
-    public String getCommunityPage(Model model){
-        List<Gesipan> randomGesipanPosts = gesipanRepository.findRandomGesipanPosts(2);
-        model.addAttribute("gesipanPosts", randomGesipanPosts);
-        return "gesipan/gesipan_list";
+    public List<Gesipan> getRandomGesipan() {
+        List<Gesipan> randomGesipan = gesipanRepository.findRandomGesipan(2);
+        return randomGesipan;
     }
 
     @GetMapping("/gesipan/{id}")
-    public String getCommunityPage(@PathVariable Long id, Model model) {
+    public String getGesipanPage(@PathVariable Long id, Model model) {
         Gesipan gesipan = gesipanRepository.findById(id).orElse(null);
         if (gesipan == null) {
             return "redirect:/gesipan";
