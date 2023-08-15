@@ -2,13 +2,13 @@ package com.ntb.hackertonntb.controller;
 
 import com.ntb.hackertonntb.domain.entity.Gesipan;
 import com.ntb.hackertonntb.domain.entity.Skills;
+import com.ntb.hackertonntb.domain.entity.User;
 import com.ntb.hackertonntb.domain.repository.GesipanRepository;
 import com.ntb.hackertonntb.domain.repository.SkillsRepository;
+import com.ntb.hackertonntb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,4 +51,22 @@ public class MainPageController {
         model.addAttribute("gesipan", gesipan);
         return "gesipan/gesipan";
     }
+
+//    @RequestMapping("/user")
+//    public class UserController {
+        @Autowired
+        private UserService userService;
+
+        @PostMapping("/add")
+        public String add(@RequestBody User user) {
+            userService.saveUser(user);
+            return "New user is added";         //사용자 정보 추가
+        }
+
+        @GetMapping("/getAll")
+        public List<User> getAllUsers() {
+            return userService.getAllUsers();
+        }
+    }
+
 }
