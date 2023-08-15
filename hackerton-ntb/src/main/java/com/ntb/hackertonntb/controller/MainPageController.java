@@ -5,8 +5,12 @@ import com.ntb.hackertonntb.domain.entity.Skills;
 import com.ntb.hackertonntb.domain.entity.User;
 import com.ntb.hackertonntb.domain.repository.GesipanRepository;
 import com.ntb.hackertonntb.domain.repository.SkillsRepository;
+import com.ntb.hackertonntb.domain.repository.UserRepository;
 import com.ntb.hackertonntb.service.UserService;
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,8 +69,28 @@ public class MainPageController {
 
         @GetMapping("/getAll")
         public List<User> getAllUsers() {
+
             return userService.getAllUsers();
         }
+
+        @Autowired
+        UserRepository UserRepo;
+
+        //skillname에 해당하는 유저 리스트 조회
+        @GetMapping("/Users/skillname")
+        public ResponseEntity<List<User>> getUsersBySkillName (@RequestParam String skillname) {
+            return new ResponseEntity<List<User>>(UserRepo.findBySkillName(skillname), HttpStatus.OK);
     }
+        //categoryname에 해당하는 유저 리스트 조회
+        @GetMapping("/Users/categoryname")
+        public ResponseEntity<List<User>> getUsersByCategoryName (@RequestParam String categoryname) {
+            return new ResponseEntity<List<User>>(UserRepo.findByCategoryName(categoryname), HttpStatus.OK);
+        }
+
+        @GetMapping("/Users/loginid")
+        public ResponseEntity<List<User>> getUsersByLoginID (@RequestParam String loginid) {
+            return new ResponseEntity<List<User>>(UserRepo.findByLoginID(loginid), HttpStatus.OK);
+        }
+
 
 }
